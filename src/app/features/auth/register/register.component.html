@@ -1,0 +1,148 @@
+<div class="bg-background min-h-screen flex items-center justify-center p-4 bg-geometric-pattern font-sans">
+  <!-- Main Registration Bento -->
+  <div class="bento-card bg-surface-container-lowest max-w-md w-full relative z-10 mx-auto hard-shadow p-6 md:p-8">
+    <!-- Logo Header -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="w-20 h-20 mb-4 rounded-xl border-2 border-on-background hard-shadow overflow-hidden bg-secondary-container flex items-center justify-center">
+        <span class="material-symbols-outlined text-4xl text-on-secondary-container">person_add</span>
+      </div>
+      <h1 class="font-headline text-3xl font-bold text-on-background text-center">Únete a TaskFlow</h1>
+      <p class="text-on-surface-variant text-center mt-2 font-bold italic">"Empieza a fluir con tus tareas"</p>
+    </div>
+
+    <!-- Error global del backend -->
+    @if (errorMessage) {
+      <div class="mb-6 p-3 rounded-xl border-2 border-error bg-error-container text-on-error-container text-sm font-bold flex items-center gap-2">
+        <span class="material-symbols-outlined text-lg">error</span>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Registration Form -->
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
+      <!-- Nombre Field -->
+      <div>
+        <label class="font-bold text-sm text-on-background block mb-2" for="nombre">Nombre Completo</label>
+        <div class="relative">
+          <span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">person</span>
+          <input
+            formControlName="nombre"
+            class="input-heavy w-full bg-surface-bright rounded-lg py-3 pl-10 pr-4 text-sm text-on-background placeholder:text-outline"
+            id="nombre"
+            placeholder="Ej. Ana García"
+            type="text">
+        </div>
+        @if (isInvalid('nombre')) {
+          <p class="text-xs text-error font-semibold mt-1.5 flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">warning</span>
+            El nombre es requerido (mínimo 2 caracteres).
+          </p>
+        }
+      </div>
+
+      <!-- Cédula Field -->
+      <div>
+        <label class="font-bold text-sm text-on-background block mb-2" for="cedula">Cédula</label>
+        <div class="relative">
+          <span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">badge</span>
+          <input
+            formControlName="cedula"
+            class="input-heavy w-full bg-surface-bright rounded-lg py-3 pl-10 pr-4 text-sm text-on-background placeholder:text-outline"
+            id="cedula"
+            placeholder="Ej. V-12345678"
+            type="text">
+        </div>
+        @if (isInvalid('cedula')) {
+          <p class="text-xs text-error font-semibold mt-1.5 flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">warning</span>
+            La cédula es requerida (mínimo 5 caracteres).
+          </p>
+        }
+      </div>
+
+      <!-- Email Field -->
+      <div>
+        <label class="font-bold text-sm text-on-background block mb-2" for="email">Correo Electrónico</label>
+        <div class="relative">
+          <span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">mail</span>
+          <input
+            formControlName="email"
+            class="input-heavy w-full bg-surface-bright rounded-lg py-3 pl-10 pr-4 text-sm text-on-background placeholder:text-outline"
+            id="email"
+            placeholder="tu@email.com"
+            type="email">
+        </div>
+        @if (isInvalid('email')) {
+          <p class="text-xs text-error font-semibold mt-1.5 flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">warning</span>
+            Ingresa un correo electrónico válido.
+          </p>
+        }
+      </div>
+
+      <!-- Password Field -->
+      <div>
+        <label class="font-bold text-sm text-on-background block mb-2" for="password">Contraseña</label>
+        <div class="relative">
+          <span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">lock</span>
+          <input
+            formControlName="password"
+            class="input-heavy w-full bg-surface-bright rounded-lg py-3 pl-10 pr-10 text-sm text-on-background placeholder:text-outline"
+            id="password"
+            placeholder="••••••••"
+            [type]="showPassword ? 'text' : 'password'">
+          <button
+            (click)="togglePassword()"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-background cursor-pointer"
+            type="button">
+            <span class="material-symbols-outlined text-[20px]">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </div>
+        @if (isInvalid('password')) {
+          <p class="text-xs text-error font-semibold mt-1.5 flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">warning</span>
+            La contraseña debe tener al menos 6 caracteres.
+          </p>
+        }
+      </div>
+
+      <!-- Rol Field -->
+      <div>
+        <label class="font-bold text-sm text-on-background block mb-2" for="rol">Rol</label>
+        <div class="relative">
+          <span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">shield_person</span>
+          <select
+            formControlName="rol"
+            class="input-heavy w-full bg-surface-bright rounded-lg py-3 pl-10 pr-4 text-sm text-on-background appearance-none cursor-pointer"
+            id="rol">
+            <option value="User">Usuario</option>
+            <option value="Admin">Administrador</option>
+          </select>
+          <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-4 space-y-4">
+        <button
+          class="bg-secondary-container hover:bg-secondary-fixed hard-shadow-btn w-full py-3.5 px-6 rounded-xl font-bold flex justify-center items-center gap-2 border-2 border-on-background text-on-secondary-container cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          type="submit"
+          [disabled]="loading">
+          @if (loading) {
+            <span class="material-symbols-outlined animate-spin">progress_activity</span>
+            <span>Creando cuenta...</span>
+          } @else {
+            <span>Crear Cuenta</span>
+            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+          }
+        </button>
+        <a
+          routerLink="/auth/login"
+          class="bg-on-tertiary-container hover:bg-tertiary-fixed hard-shadow-btn w-full py-3.5 px-6 rounded-xl font-bold flex justify-center items-center gap-2 border-2 border-on-background text-on-background cursor-pointer block text-center">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+          <span>Volver al Login</span>
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

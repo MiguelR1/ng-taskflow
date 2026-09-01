@@ -1,0 +1,416 @@
+<div class="flex min-h-screen bg-surface-container-low font-body-md text-on-surface">
+  <!-- Sidebar Desktop -->
+  <aside
+    class="hidden md:flex flex-col h-screen w-64 bg-background border-r-2 border-on-background py-4 sticky top-0 z-40">
+    <div class="px-6 pb-6 border-b-2 border-on-background flex items-center gap-3">
+      <div
+        class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center border-2 border-on-background hard-shadow">
+        <span class="material-symbols-outlined text-white">check_box</span>
+      </div>
+      <h1 class="font-headline text-2xl font-black text-primary">TaskFlow</h1>
+    </div>
+
+    <div class="px-6 py-6 border-b-2 border-on-background flex items-center gap-4">
+      <div
+        class="w-12 h-12 rounded-full border-2 border-on-background bg-secondary-container flex items-center justify-center font-bold text-on-secondary-container text-lg">
+        TF
+      </div>
+      <div>
+        <h2 class="font-bold text-sm text-on-background">Workspace Principal</h2>
+        <p class="text-xs text-on-surface-variant mt-0.5">3 proyectos activos</p>
+      </div>
+    </div>
+
+    <nav class="flex-1 py-6 px-4 flex flex-col gap-2">
+      <!-- Active Tab -->
+      <a routerLink="/home"
+        class="flex items-center gap-3 px-4 py-3 bg-primary text-white border-2 border-on-background hard-shadow rounded-xl mx-1 font-bold text-sm transition-all">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/home"
+        class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl mx-1 font-bold text-sm hover:translate-x-1 transition-transform">
+        <span class="material-symbols-outlined">folder_open</span>
+        <span>Proyectos</span>
+      </a>
+      <a routerLink="/home"
+        class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl mx-1 font-bold text-sm hover:translate-x-1 transition-transform">
+        <span class="material-symbols-outlined">calendar_today</span>
+        <span>Calendario</span>
+      </a>
+    </nav>
+
+    <div class="px-4 mb-6">
+      <button
+        class="w-full bg-secondary-container text-on-secondary-container font-bold text-sm py-3 rounded-xl border-2 border-on-background hard-shadow-btn flex justify-center items-center gap-2 cursor-pointer">
+        <span class="material-symbols-outlined">add</span>
+        Nuevo Proyecto
+      </button>
+    </div>
+
+    <div class="px-4 py-4 border-t-2 border-on-background flex flex-col gap-2">
+      <a routerLink="/auth/login"
+        class="flex items-center gap-3 px-4 py-2 text-error hover:bg-error-container/20 rounded-xl mx-1 font-bold text-sm transition-colors">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex flex-col min-h-screen bg-surface-container-low overflow-x-hidden">
+    <!-- TopNavBar -->
+    <header
+      class="flex justify-between items-center w-full px-6 h-16 sticky top-0 z-50 bg-surface border-b-2 border-on-background hard-shadow md:shadow-none md:border-b-2">
+      <!-- Mobile Brand -->
+      <div class="md:hidden flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white border border-on-background">
+          <span class="material-symbols-outlined text-lg">check_box</span>
+        </div>
+        <h1 class="text-xl font-bold text-on-surface">TaskFlow</h1>
+      </div>
+
+      <!-- Search -->
+      <div class="hidden md:flex flex-1 max-w-md">
+        <div class="relative w-full">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+          <input
+            class="w-full bg-surface border-2 border-on-background rounded-full py-2 pl-10 pr-4 font-body-md focus:outline-none focus:border-primary transition-all text-sm"
+            placeholder="Buscar proyectos, tareas..." type="text" />
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-4">
+        <button
+          class="w-10 h-10 rounded-full border-2 border-on-background bg-surface flex items-center justify-center hard-shadow-btn hover:bg-secondary-container transition-colors cursor-pointer">
+          <span class="material-symbols-outlined text-on-surface">notifications</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard Canvas -->
+    <div class="p-6 md:p-8 flex-1">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <h2 class="font-headline text-3xl md:text-4xl font-extrabold text-on-background mb-2">Hola, Equipo 👋</h2>
+          <p class="text-on-surface-variant font-medium">Tienes 4 tareas críticas para hoy.</p>
+        </div>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <!-- Proyecto Principal proyecto importante -->
+
+        @if (proyectoPrincipalProyectado) {
+        <div
+          class="md:col-span-8 bento-card p-6 flex flex-col justify-between relative overflow-hidden group hard-shadow">
+          <div
+            class="absolute top-0 right-0 w-32 h-32 bg-secondary-container rounded-bl-full -z-0 opacity-20 group-hover:scale-110 transition-transform duration-500">
+          </div>
+          <div class="relative z-10">
+            <div class="flex justify-between items-start mb-6">
+              <span
+                [class]="'px-3 py-1 font-bold text-xs rounded-full border border-on-background ' + getBgColorDashboard(proyectoPrincipalProyectado.color).bgClass">
+                {{proyectoPrincipalProyectado.categoria}}
+              </span>
+
+              <button class="text-on-surface-variant hover:text-on-background transition-colors"><span
+                  class="material-symbols-outlined">more_horiz</span></button>
+            </div>
+            <h3
+              class="font-headline text-2xl md:text-3xl font-bold text-on-background mb-3 cursor-pointer hover:underline transition-all"
+              (click)="navigateToTasks(proyectoPrincipalProyectado.id)">
+              {{proyectoPrincipalProyectado.nombre}}</h3>
+            <p class="text-on-surface-variant max-w-lg mb-8 text-sm">{{proyectoPrincipalProyectado.descripcion}}</p>
+          </div>
+          <div class="relative z-10 bg-surface-container rounded-xl p-4 border-2 border-on-background">
+            <div class="flex justify-between font-bold text-sm mb-2">
+              <span>Progreso General</span>
+              <span>{{proyectoPrincipalProyectado.totalTareas}}%</span>
+            </div>
+            <div class="h-4 bg-background rounded-full border-2 border-on-background overflow-hidden">
+              <div [class]="'h-full bg-primary border-r-2 border-on-background'"
+                [style]="'width: ' + proyectoPrincipalProyectado.totalTareas + '%'"></div>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Carta estadisticas al lado -->
+        <div class="md:col-span-4 flex flex-col gap-6">
+          <div
+            class="bento-card bg-on-tertiary-container p-6 flex-1 flex flex-col justify-center items-center text-center hard-shadow">
+            <span class="material-symbols-outlined text-4xl text-tertiary mb-2">task_alt</span>
+            <h4 class="font-headline text-4xl font-extrabold text-tertiary">{{tareasCompletadas}}</h4>
+            <p class="font-bold text-xs text-tertiary/90 uppercase tracking-wider mt-1">Tareas Completadas</p>
+          </div>
+          <div
+            class="bento-card bg-secondary-container p-6 flex-1 flex flex-col justify-center items-center text-center hard-shadow">
+            <span class="material-symbols-outlined text-4xl text-on-secondary-container mb-2">schedule</span>
+            <h4 class="font-headline text-4xl font-extrabold text-on-secondary-container">{{horasTrabajadas}}</h4>
+            <p class="font-bold text-xs text-on-secondary-container/90 uppercase tracking-wider mt-1">Horas Completadas
+            </p>
+          </div>
+        </div>
+
+        <!-- Project Cards Row -->
+        @for (project of projects; track project.id) {
+        <div (click)="navigateToTasks(project.id)"
+          class="md:col-span-4 bento-card p-6 hard-shadow hover:-translate-y-1 transition-transform cursor-pointer flex flex-col justify-between">
+          <div>
+
+            <div class="flex justify-between items-start mb-4">
+              <div
+                [class]="'w-12 h-12 rounded-xl border-2 border-on-background flex items-center justify-center ' + getBgColorDashboard(project.color).bgClass">
+                <span class="material-symbols-outlined text-2xl">{{ project.icono }}</span>
+              </div>
+
+              <span
+                [class]="'px-2.5 py-1 font-bold text-xs rounded-full border border-on-background ' + getBgColorDashboard(project.color).bgClass">
+                {{ project.categoria }}
+              </span>
+            </div>
+
+            <h4 class="font-headline text-xl font-bold mb-2">{{ project.nombre }}</h4>
+            <p class="text-on-surface-variant text-sm mb-6 line-clamp-2">{{ project.descripcion }}</p>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1 text-on-surface-variant">
+              <span>% Completado</span>
+              <span>{{ project.totalTareas }} Tareas</span>
+            </div>
+            <div class="h-2 bg-surface-container rounded-full border border-on-background overflow-hidden">
+              <div class="h-full bg-secondary-container border-r border-on-background"></div>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Add New Project Card -->
+        <div (click)="openModal()"
+          class="md:col-span-4 bento-card p-6 flex flex-col items-center justify-center text-center border-2 border-dashed border-outline hover:border-primary hover:bg-surface-variant transition-colors cursor-pointer group hard-shadow min-h-[220px]">
+          <div
+            class="w-14 h-14 rounded-full border-2 border-on-background bg-secondary-container flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-3xl">add</span>
+          </div>
+          <h4 class="font-headline text-lg font-bold">Nuevo Proyecto</h4>
+          <p class="text-sm text-on-surface-variant">Inicia algo increíble hoy</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- BottomNavBar (Mobile Only) -->
+  <nav
+    class="md:hidden fixed bottom-0 w-full bg-surface border-t-2 border-on-background hard-shadow z-50 px-4 py-2 flex justify-between items-center">
+    <a routerLink="/home" class="flex flex-col items-center p-2 text-primary">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-[10px] font-bold mt-1">Dashboard</span>
+    </a>
+    <a routerLink="/tasks" class="flex flex-col items-center p-2 text-on-surface-variant">
+      <span class="material-symbols-outlined">checklist</span>
+      <span class="text-[10px] font-bold mt-1">Tareas</span>
+    </a>
+    <div class="relative -top-6">
+      <button
+        class="w-14 h-14 rounded-full bg-secondary-container border-2 border-on-background hard-shadow flex items-center justify-center active:translate-y-1">
+        <span class="material-symbols-outlined text-on-secondary-container text-3xl">add</span>
+      </button>
+    </div>
+    <a routerLink="/tasks" class="flex flex-col items-center p-2 text-on-surface-variant">
+      <span class="material-symbols-outlined">folder_open</span>
+      <span class="text-[10px] font-bold mt-1">Proyectos</span>
+    </a>
+    <a routerLink="/auth/login" class="flex flex-col items-center p-2 text-on-surface-variant">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="text-[10px] font-bold mt-1">Salir</span>
+    </a>
+  </nav>
+</div>
+
+
+
+
+<!-- Modal creacion proyecto -->
+
+<!-- MODAL CREAR PROYECTO -->
+@if (isModalOpen) {
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+
+  <!-- Contenedor del Modal con estilo Pop-Brutalist -->
+  <div
+    class="bg-background w-full max-w-md rounded-2xl border-2 border-on-background hard-shadow overflow-hidden flex flex-col animate-scale-up">
+
+    <!-- Modal Header -->
+    <div class="px-6 py-4 bg-surface-container border-b-2 border-on-background flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center border border-on-background">
+          <span class="material-symbols-outlined text-lg">create_new_folder</span>
+        </div>
+        <h3 class="font-headline text-xl font-black text-on-background">Nuevo Proyecto</h3>
+      </div>
+      <button (click)="closeModal()"
+        class="w-8 h-8 rounded-lg border border-on-background bg-surface flex items-center justify-center hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer">
+        <span class="material-symbols-outlined text-base">close</span>
+      </button>
+    </div>
+
+
+
+    <!-- Modal Body (Formulario) -->
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="p-6 flex flex-col gap-4 relative">
+
+      <!-- Campo: Nombre -->
+      <div class="flex flex-col gap-1.5">
+        <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Nombre del Proyecto</label>
+        <input type="text" formControlName="nombre" placeholder="Ej: Dashboard TaskFlow"
+          class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 px-3.5 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all" />
+        @if (projectForm.get('nombre')?.invalid && projectForm.get('nombre')?.touched) {
+        <span class="text-xs text-error font-bold">El nombre es requerido (mínimo 3 caracteres).</span>
+        }
+      </div>
+
+      <!-- Campo: Categoría -->
+      <div class="flex flex-col gap-1.5">
+        <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Categoría</label>
+        <input formControlName="categoria" placeholder="Ingresa categoria..."
+          class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 px-3.5 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all">
+      </div>
+
+      <!-- Campo: Descripción -->
+      <div class="flex flex-col gap-1.5">
+        <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Descripción</label>
+        <textarea formControlName="descripcion" rows="3" placeholder="Describe brevemente el objetivo..."
+          class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 px-3.5 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all resize-none"></textarea>
+      </div>
+
+      <!-- Campo: Duracion estimada -->
+      <div class="flex flex-col gap-1.5">
+        <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Duracion estimada (Horas)</label>
+        <input type="number" formControlName="duracion" placeholder="Duracion estimada del proyecto..."
+          class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 px-3.5 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all resize-none">
+      </div>
+
+      <!-- Botón Activador: Ícono y Color seleccionados -->
+      <div class="flex flex-col gap-1.5">
+        <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Personalización</label>
+
+        <button type="button" (click)="togglePickerModal($event)"
+          class="w-full flex items-center justify-between p-3 bg-surface border-2 border-on-background rounded-xl hard-shadow-btn cursor-pointer transition-all active:translate-y-0.5">
+          <div class="flex items-center gap-3">
+
+            <!-- Badge con el color e ícono actual -->
+            <div
+              [class]="'w-10 h-10 rounded-xl border-2 border-on-background flex items-center justify-center text-xl ' + selectedColor.bgClass">
+              @switch (projectForm.get('icono')?.value) {
+              @case ('rocket') { <span>🚀</span> }
+              @case ('code') { <span>💻</span> }
+              @case ('bar_chart') { <span>📊</span> }
+              @case ('briefcase') { <span>💼</span> }
+              @default { <span>📁</span> }
+              }
+            </div>
+
+            <div class="text-left">
+              <span class="block text-xs font-bold text-on-surface">Ícono y Color</span>
+              <span class="block text-xs text-slate-500 font-medium">{{ selectedColor.nombre }}</span>
+            </div>
+          </div>
+
+          <span class="material-symbols-outlined text-on-surface">palette</span>
+        </button>
+      </div>
+
+      <!-- Footer / Acciones -->
+      <div class="flex gap-3 pt-4 border-t-2 border-on-background mt-2">
+        <button type="button" (click)="closeModal()"
+          class="flex-1 bg-surface-variant text-on-surface-variant font-bold text-sm py-2.5 rounded-xl border-2 border-on-background hard-shadow-btn cursor-pointer active:translate-y-0.5">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="flex-1 bg-primary text-white font-bold text-sm py-2.5 rounded-xl border-2 border-on-background hard-shadow-btn cursor-pointer active:translate-y-0.5 flex justify-center items-center gap-1">
+          <span class="material-symbols-outlined text-base">add</span>
+          Guardar
+        </button>
+      </div>
+
+    </form>
+
+    <!-- SUBMODAL / POPOVER DE SELECCIÓN DE APARIENCIA -->
+    @if (isPickerOpen) {
+    <!-- Modal Pequeño Selector -->
+    <div (click)="$event.stopPropagation()"
+      class="fixed inset-0 m-auto h-fit z-50 w-[90%] max-w-sm bg-surface border-2 border-on-background rounded-2xl p-5 hard-shadow-btn flex flex-col gap-4">
+
+      <!-- Header Submodal -->
+      <div class="flex justify-between items-center border-b-2 border-on-background pb-3">
+        <h4 class="font-bold text-sm uppercase tracking-wider text-on-surface">Elegir Apariencia</h4>
+
+        <button type="button" (click)="closePicker($event)"
+          class="text-on-surface hover:opacity-75 cursor-pointer flex items-center p-1">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+
+      <!-- Paleta de Colores -->
+      <div class="flex flex-col gap-2">
+        <span class="font-bold text-xs uppercase text-on-surface">Color</span>
+        <div class="flex items-center justify-between gap-2">
+          @for (color of colorOptions; track color.id) {
+          <button type="button" (click)="selectColor(color.id, $event)"
+            [class]="'w-9 h-9 rounded-xl border-2 transition-colors flex items-center justify-center cursor-pointer relative ' + 
+                    color.bgClass + ' ' + 
+                    (projectForm.get('color')?.value === color.id ? 'border-primary ring-2 ring-primary' : 'border-on-background')">
+
+            @if (projectForm.get('color')?.value === color.id) {
+            <span class="material-symbols-outlined text-sm font-bold text-on-surface">check</span>
+            }
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Selector de Íconos -->
+      <div class="flex flex-col gap-2">
+        <span class="font-bold text-xs uppercase text-on-surface">Ícono</span>
+        <div class="grid grid-cols-5 gap-2">
+          @for (icon of iconOptions; track icon.id) {
+          <button type="button" (click)="selectIcon(icon.id, $event)"
+            class="h-12 border-2 rounded-xl flex items-center justify-center cursor-pointer transition-colors relative"
+            [ngClass]="projectForm.get('icono')?.value === icon.id
+                    ? 'border-primary ring-2 ring-primary ' + selectedColorBgClass
+                    : 'border-on-background text-on-surface'">
+
+            <span class="text-xl">
+              <ng-container [ngSwitch]="icon.id">
+                <span *ngSwitchCase="'folder'">📁</span>
+                <span *ngSwitchCase="'rocket'">🚀</span>
+                <span *ngSwitchCase="'code'">💻</span>
+                <span *ngSwitchCase="'chart'">📊</span>
+                <span *ngSwitchCase="'briefcase'">💼</span>
+              </ng-container>
+            </span>
+
+            @if (projectForm.get('icono')?.value === icon.id) {
+            <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary"></span>
+            }
+          </button>
+          }
+        </div>
+      </div>
+
+      <button type="button" (click)="closePicker($event)"
+        class="w-full bg-primary text-white font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl border-2 border-on-background hard-shadow-btn cursor-pointer mt-1 hover:opacity-90 active:opacity-100">
+        Listo
+      </button>
+    </div>
+    }
+
+  </div>
+</div>
+}

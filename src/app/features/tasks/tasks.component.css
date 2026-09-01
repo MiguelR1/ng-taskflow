@@ -1,0 +1,24 @@
+.task-card {
+  border: 2px solid #1c1b1b;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #7b7487;
+  border-radius: 4px;
+}

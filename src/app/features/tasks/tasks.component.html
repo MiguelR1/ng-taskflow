@@ -1,0 +1,371 @@
+<div class="flex min-h-screen bg-background font-body-md text-on-background">
+  <!-- SideNavBar Desktop -->
+  <aside
+    class="hidden md:flex flex-col h-screen w-64 bg-background border-r-2 border-on-background py-4 sticky top-0 z-40">
+    <div class="px-6 pb-6 border-b-2 border-on-background flex items-center gap-3">
+      <div
+        class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center border-2 border-on-background hard-shadow text-white">
+        <span class="material-symbols-outlined">check_box</span>
+      </div>
+      <h1 class="font-headline text-2xl font-black text-primary">TaskFlow</h1>
+    </div>
+
+    <div class="px-6 py-6 border-b-2 border-on-background flex items-center gap-4">
+      <div
+        class="w-12 h-12 rounded-full border-2 border-on-background bg-secondary-container flex items-center justify-center font-bold text-on-secondary-container text-lg">
+        TF
+      </div>
+      <div>
+        <h2 class="font-bold text-sm text-on-background">Workspace Principal</h2>
+        <p class="text-xs text-on-surface-variant mt-0.5">3 proyectos activos</p>
+      </div>
+    </div>
+
+    <nav class="flex-1 py-6 px-4 flex flex-col gap-2">
+      <a routerLink="/home"
+        class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl mx-1 font-bold text-sm hover:translate-x-1 transition-transform">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/home"
+        class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl mx-1 font-bold text-sm hover:translate-x-1 transition-transform">
+        <span class="material-symbols-outlined">folder_open</span>
+        <span>Proyectos</span>
+      </a>
+      <a routerLink="/home"
+        class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl mx-1 font-bold text-sm hover:translate-x-1 transition-transform">
+        <span class="material-symbols-outlined">calendar_today</span>
+        <span>Calendario</span>
+      </a>
+    </nav>
+
+    <div class="px-4 py-4 border-t-2 border-on-background flex flex-col gap-2">
+      <a routerLink="/auth/login"
+        class="flex items-center gap-3 px-4 py-2 text-error hover:bg-error-container/20 rounded-xl mx-1 font-bold text-sm transition-colors">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- TopNavBar -->
+    <header
+      class="flex justify-between items-center w-full px-6 h-16 sticky top-0 z-50 bg-surface border-b-2 border-on-background hard-shadow md:shadow-none">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-2xl md:hidden">checklist</span>
+        <h2 class="font-headline text-xl md:text-2xl font-bold text-primary truncate">Proyecto Alpha - Tablero Kanban
+        </h2>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button
+          class="bg-secondary-container text-on-secondary-container font-bold text-xs py-2 px-4 rounded-full border-2 border-on-background hard-shadow-btn cursor-pointer flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">add</span>
+          <span>Editar Proyecto</span>
+        </button>
+
+        <button (click)="accModalTarea(true)"
+          class="bg-primary text-white font-bold text-xs py-2 px-4 rounded-full border-2 border-on-background hard-shadow-btn cursor-pointer flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">add</span>
+          <span>Nueva Tarea</span>
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Kanban Board Area -->
+    <main class="flex-1 overflow-x-auto p-6 md:p-8">
+      <div class="mb-6 flex justify-between items-end">
+        <div>
+          <h3 class="font-headline text-2xl md:text-3xl font-extrabold text-on-background mb-1">Tablero de Tareas</h3>
+          <p class="text-on-surface-variant font-medium text-sm">Organiza tus pendientes, tareas en proceso y
+            entregables completados.</p>
+        </div>
+      </div>
+
+      <!-- Kanban Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start min-w-[700px]">
+
+        <!-- Column: Por Hacer -->
+        <div class="bento-card bg-surface-container-low p-4 hard-shadow flex flex-col gap-4">
+          <div class="flex justify-between items-center pb-3 border-b-2 border-on-background">
+            <h4 class="font-headline text-lg font-bold flex items-center gap-2">
+              <span class="w-3.5 h-3.5 rounded-full bg-error inline-block"></span>
+              Por Hacer
+            </h4>
+            <span class="font-bold text-xs bg-surface-variant px-2.5 py-1 rounded-full border border-on-background">{{
+              todoTasks.length }}</span>
+          </div>
+
+          <div class="space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+            @for (task of todoTasks; track task.id) {
+            <div class="task-card hard-shadow flex flex-col gap-3">
+              <div class="flex justify-between items-start">
+                <span
+                  class="text-xs font-bold px-2.5 py-0.5 rounded-full border border-on-background {{ task.badgeClass }}">{{
+                  task.badge }}</span>
+                <div class="flex gap-1">
+                  <button (click)="moveTask(task, 'in_progress')" title="Mover a En Proceso"
+                    class="text-primary hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+              <h5 class="font-bold text-base leading-tight">{{ task.title }}</h5>
+              @if (task.description) {
+              <p class="text-xs text-on-surface-variant">{{ task.description }}</p>
+              }
+              <div class="flex justify-between items-center mt-2 pt-2 border-t border-surface-variant">
+                <div
+                  class="w-7 h-7 rounded-full bg-secondary-container border border-on-background flex items-center justify-center text-xs font-bold">
+                  AG
+                </div>
+                @if (task.date) {
+                <div class="flex items-center gap-1 text-xs text-on-surface-variant">
+                  <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                  <span>{{ task.date }}</span>
+                </div>
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- Column: En Proceso -->
+        <div class="bento-card bg-surface-container-low p-4 hard-shadow flex flex-col gap-4">
+          <div class="flex justify-between items-center pb-3 border-b-2 border-on-background">
+            <h4 class="font-headline text-lg font-bold flex items-center gap-2">
+              <span class="w-3.5 h-3.5 rounded-full bg-secondary-container inline-block"></span>
+              En Proceso
+            </h4>
+            <span class="font-bold text-xs bg-surface-variant px-2.5 py-1 rounded-full border border-on-background">{{
+              inProgressTasks.length }}</span>
+          </div>
+
+          <div class="space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+            @for (task of inProgressTasks; track task.id) {
+            <div class="task-card hard-shadow bg-secondary-fixed/20 flex flex-col gap-3">
+              <div class="flex justify-between items-start">
+                <span
+                  class="text-xs font-bold px-2.5 py-0.5 rounded-full border border-on-background {{ task.badgeClass }}">{{
+                  task.badge }}</span>
+                <div class="flex gap-1">
+                  <button (click)="moveTask(task, 'todo')" title="Mover a Por Hacer"
+                    class="text-on-surface-variant hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-lg">arrow_back</span>
+                  </button>
+                  <button (click)="moveTask(task, 'done')" title="Mover a Hecho"
+                    class="text-tertiary hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+              <h5 class="font-bold text-base leading-tight">{{ task.title }}</h5>
+              @if (task.description) {
+              <p class="text-xs text-on-surface-variant">{{ task.description }}</p>
+              }
+              @if (task.progress) {
+              <div class="w-full bg-surface h-2 rounded-full border border-on-background overflow-hidden mt-1">
+                <div class="bg-primary h-full" [style.width.%]="task.progress"></div>
+              </div>
+              }
+              <div class="flex justify-between items-center mt-2 pt-2 border-t border-surface-variant">
+                <div
+                  class="w-7 h-7 rounded-full bg-tertiary-container text-white border border-on-background flex items-center justify-center text-xs font-bold">
+                  DEV
+                </div>
+                @if (task.commentsCount) {
+                <div class="flex items-center gap-1 text-xs text-on-surface-variant">
+                  <span class="material-symbols-outlined text-[14px]">chat_bubble</span>
+                  <span>{{ task.commentsCount }}</span>
+                </div>
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- Column: Hecho -->
+        <div class="bento-card bg-surface-container-low p-4 hard-shadow flex flex-col gap-4">
+          <div class="flex justify-between items-center pb-3 border-b-2 border-on-background">
+            <h4 class="font-headline text-lg font-bold flex items-center gap-2">
+              <span class="w-3.5 h-3.5 rounded-full bg-on-tertiary-container inline-block"></span>
+              Hecho
+            </h4>
+            <span class="font-bold text-xs bg-surface-variant px-2.5 py-1 rounded-full border border-on-background">{{
+              doneTasks.length }}</span>
+          </div>
+
+          <div class="space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+            @for (task of doneTasks; track task.id) {
+            <div
+              class="task-card flex flex-col gap-3 opacity-80 hover:opacity-100 transition-opacity bg-on-tertiary-container/20">
+              <div class="flex justify-between items-start">
+                <span
+                  class="text-xs font-bold px-2.5 py-0.5 rounded-full border border-on-background {{ task.badgeClass }}">{{
+                  task.badge }}</span>
+                <button (click)="moveTask(task, 'in_progress')" title="Mover a En Proceso"
+                  class="text-on-surface-variant hover:scale-110 transition-transform">
+                  <span class="material-symbols-outlined text-lg">undo</span>
+                </button>
+              </div>
+              <h5 class="font-bold text-base leading-tight line-through text-on-surface-variant">{{ task.title }}</h5>
+              <div class="flex justify-between items-center mt-2 pt-2 border-t border-surface-variant">
+                <div
+                  class="w-7 h-7 rounded-full bg-primary text-white border border-on-background flex items-center justify-center text-xs font-bold">
+                  QA
+                </div>
+                <span class="material-symbols-outlined text-tertiary text-lg">check_circle</span>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Modal creacion de tarea -->
+
+<!-- MODAL CENTRAL CREAR TAREA -->
+@if (modalCreacionTarea) {
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+
+  <div
+    class="bg-background w-full max-w-lg rounded-2xl border-2 border-on-background hard-shadow overflow-hidden flex flex-col animate-scale-up">
+
+    <!-- Header -->
+    <div class="px-6 py-4 bg-surface-container border-b-2 border-on-background flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-9 h-9 rounded-xl bg-primary text-white flex items-center justify-center border-2 border-on-background">
+          <span class="material-symbols-outlined text-xl">add_task</span>
+        </div>
+        <h3 class="font-headline text-xl font-black text-on-background">Nueva Tarea</h3>
+      </div>
+      <button (click)="accModalTarea(false)" type="button"
+        class="w-8 h-8 rounded-lg border border-on-background bg-surface flex items-center justify-center hover:bg-error-container hover:text-on-error-container transition-colors cursor-pointer">
+        <span class="material-symbols-outlined text-base">close</span>
+      </button>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="p-6 flex flex-col gap-4">
+
+      <!-- Título -->
+      <div class="flex flex-col gap-1.5">
+        <label class="font-bold text-xs uppercase tracking-wider text-on-surface">
+          Título de la tarea <span class="text-error">*</span>
+        </label>
+        <input type="text" formControlName="titulo" placeholder="Ej: Diseñar componentes UI"
+          class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 px-3.5 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all" />
+        @if (taskForm.get('titulo')?.invalid && taskForm.get('titulo')?.touched) {
+        <span class="text-xs text-error font-bold">El título es obligatorio (mínimo 3 caracteres).</span>
+        }
+      </div>
+
+      <!-- Descripción -->
+      <div class="flex flex-col gap-1.5">
+        <div class="flex justify-between items-center">
+          <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Descripción</label>
+        </div>
+        <textarea formControlName="descripcion" rows="3" placeholder="Detalles sobre lo que se debe realizar..."
+          class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 px-3.5 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all resize-none"></textarea>
+      </div>
+
+      <!-- Fila doble: Estado y Prioridad -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Estado -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-bold text-xs uppercase tracking-wider text-on-surface">
+            Estado <span class="text-error">*</span>
+          </label>
+          <div class="relative">
+            <select formControlName="estado"
+              class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 pl-3.5 pr-10 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all appearance-none cursor-pointer">
+              <option value="POR_HACER">Por Hacer</option>
+              <option value="EN_PROCESO">En Proceso</option>
+              <option value="HECHO">Hecho</option>
+            </select>
+            <span
+              class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">
+              unfold_more
+            </span>
+          </div>
+        </div>
+
+        <!-- Prioridad -->
+        <div class="flex flex-col gap-1.5">
+          <label class="font-bold text-xs uppercase tracking-wider text-on-surface">
+            Prioridad <span class="text-error">*</span>
+          </label>
+          <div class="relative">
+            <select formControlName="prioridad"
+              class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 pl-3.5 pr-10 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all appearance-none cursor-pointer">
+              <option value="BAJA">Baja</option>
+              <option value="MEDIA">Media</option>
+              <option value="ALTA">Alta</option>
+              <option value="URGENTE">Urgente</option>
+            </select>
+            <span
+              class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">
+              unfold_more
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Responsable / Asignado -->
+      <div class="flex flex-col gap-1.5">
+        <div class="flex justify-between items-center">
+          <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Responsable</label>
+        </div>
+        <div class="relative">
+          <select formControlName="responsableId"
+            class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 pl-3.5 pr-10 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all appearance-none cursor-pointer">
+            <option selected disabled>Selecciona un responsable...</option>
+            @for (usuario of usuarios; track usuario.id) {
+            <option [value]="usuario.id">{{ usuario.nombre }}</option>
+            }
+          </select>
+          <span
+            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">
+            unfold_more
+          </span>
+        </div>
+      </div>
+
+      <!-- Fecha de Entrega -->
+      <div class="flex flex-col gap-1.5">
+        <div class="flex justify-between items-center">
+          <label class="font-bold text-xs uppercase tracking-wider text-on-surface">Fecha Límite</label>
+        </div>
+        <input type="date" formControlName="fechaEntrega"
+          class="w-full bg-surface border-2 border-on-background rounded-xl py-2.5 px-3.5 font-body-md text-sm text-on-surface focus:outline-none focus:border-primary transition-all cursor-pointer" />
+      </div>
+
+      <!-- Acciones -->
+      <div class="flex gap-3 pt-4 border-t-2 border-on-background mt-2">
+        <button type="button" (click)="accModalTarea(false)"
+          class="flex-1 bg-surface-variant text-on-surface-variant font-bold text-sm py-2.5 rounded-xl border-2 border-on-background hard-shadow-btn cursor-pointer active:translate-y-0.5">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="flex-1 bg-primary text-white font-bold text-sm py-2.5 rounded-xl border-2 border-on-background hard-shadow-btn cursor-pointer active:translate-y-0.5 flex justify-center items-center gap-1">
+          <span class="material-symbols-outlined text-base">add</span>
+          Crear Tarea
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+}
