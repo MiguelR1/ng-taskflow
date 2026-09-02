@@ -78,6 +78,16 @@ export class TasksService {
       )
   }
 
+  // createTarea(payload: createTareaPayload) {
+  //   return this.http.post<createTareaResponse>(
+  //     `${this.API_URL}/crearTarea`,
+  //     payload,
+  //     { headers: this.getTokenLS() })
+  //     .pipe(
+  //       catchError((err: HttpErrorResponse) => this.handleError(err))
+  //     )
+  // }
+
   private getTokenLS() {
     const token = localStorage.getItem('tf_token');
 

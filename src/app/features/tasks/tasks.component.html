@@ -99,7 +99,7 @@
               todoTasks.length }}</span>
           </div>
 
-          <div class="space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+          <div class="pt-1 space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
             @for (task of todoTasks; track task.id) {
             <div class="task-card hard-shadow flex flex-col gap-3">
               <div class="flex justify-between items-start">
@@ -145,7 +145,7 @@
               inProgressTasks.length }}</span>
           </div>
 
-          <div class="space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+          <div class="pt-1 space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
             @for (task of inProgressTasks; track task.id) {
             <div class="task-card hard-shadow bg-secondary-fixed/20 flex flex-col gap-3">
               <div class="flex justify-between items-start">
@@ -200,7 +200,7 @@
               doneTasks.length }}</span>
           </div>
 
-          <div class="space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
+          <div class="pt-1 space-y-4 custom-scrollbar max-h-[calc(100vh-280px)] overflow-y-auto pr-1">
             @for (task of doneTasks; track task.id) {
             <div
               class="task-card flex flex-col gap-3 opacity-80 hover:opacity-100 transition-opacity bg-on-tertiary-container/20">
@@ -367,5 +367,27 @@
 
     </form>
   </div>
+</div>
+}
+
+@if (toastTareaCreada) {
+<!-- Alerta de éxito flotante centrada horizontalmente -->
+<div id="success-alert"
+  class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white px-5 py-3 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300">
+  <!-- Icono de éxito con fondo morado -->
+  <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#6366f1] text-white font-bold">
+    ✓
+  </div>
+
+  <!-- Texto -->
+  <div class="flex flex-col">
+    <span class="text-sm font-bold text-gray-900">¡Éxito!</span>
+    <span class="text-xs text-gray-600">La tarea se ha añadido correctamente.</span>
+  </div>
+
+  <!-- Botón de cerrar -->
+  <button onclick="this.parentElement.remove()" class="ml-4 text-gray-400 hover:text-black font-bold text-lg">
+    &times;
+  </button>
 </div>
 }

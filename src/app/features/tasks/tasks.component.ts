@@ -132,10 +132,29 @@ export class TasksComponent implements OnInit {
 
   modalCreacionTarea = false;
 
+  toastTareaCreada = false;
+
   addTask() {
     console.log('tarea', this.taskForm.value);
 
+    // this.taskService.createTareas(this.taskForm.value as CreateTareasPayload).subscribe({
+    //   next: (res) => {
+    //     console.log('res', res);
 
+    //     this.taskForm.reset();
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   }
+    // })
+
+    //Cierre modal
+    this.modalCreacionTarea = false;
+    this.toastTareaCreada = true;
+
+    setTimeout(() => {
+      this.toastTareaCreada = false;
+    }, 2000);
   }
 
   accModalTarea(acc: Boolean) {
@@ -150,6 +169,42 @@ export class TasksComponent implements OnInit {
   }
 
   moveTask(task: Task, newStatus: 'todo' | 'in_progress' | 'done') {
+    const statusAnt = task.status;
+
+    if (newStatus === statusAnt) return;
+
+    //Borrado de su lista
+    if (statusAnt === 'todo') {
+      this.todoTasks.splice(this.todoTasks.indexOf(task), 1);
+    }
+    else if (statusAnt === 'in_progress') {
+      this.inProgressTasks.splice(this.inProgressTasks.indexOf(task), 1);
+    }
+    else if (statusAnt === 'done') {
+      this.doneTasks.splice(this.doneTasks.indexOf(task), 1);
+    }
+
     task.status = newStatus;
+
+    //Agregado a la nueva lista
+    console.log('tarea', task);
+
+    switch (newStatus) {
+      case 'todo':
+        this.todoTasks.push(task);
+        break;
+
+      case 'in_progress':
+        this.inProgressTasks.push(task);
+        break;
+
+      case 'done':
+        this.doneTasks.push(task);
+        break;
+
+      default:
+        break;
+    }
+
   }
 }
