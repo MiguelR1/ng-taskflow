@@ -6,12 +6,24 @@ export interface getTasksResponse {
   id: string;
   titulo: string;
   descripcion: string | null;
-  estado: 'Pendiente' | 'enProgreso' | 'Terminado';
+  estado: Estado;
+
+
+  clase: string;
+  color: string;
+
   proyectoId: string;
   creadorId: number;
   asignadorId: number | null;
-  fechaTerminada: string | null;
+  fechaTerminada: Date | null;
+
+  fechaTerminadaFormateada?: string;
+
+  fechaCreada: Date | null;
+  horasEstimadas: number;
 }
+
+export type Estado = 'Pendiente' | 'enProgreso' | 'Terminado';
 
 export interface TaskErrorResponse {
   ok?: boolean;
@@ -32,6 +44,34 @@ export interface getHorasRegistradas {
 export interface getTareasCompletadas {
   mensaje: string;
   tareas: number;
+}
+
+export interface createTareaPayload {
+  titulo: string;
+  descripcion?: string | null;
+  estado: string;
+  proyectoId: string;
+  creadorId: number;
+  horasEstimadas: number;
+  prioridad: string;
+  fechaTerminada: Date;
+  asignadorId: number;
+  clase: string;
+  color: string;
+}
+
+export interface createTareaResponse {
+  mensaje: string;
+  tarea: {
+    id: string;
+    titulo: string;
+    descripcion?: string | null;
+    estado: string;
+    proyectoId: string;
+    asignadorId: number;
+    creadorId: number;
+    horasEstimadas: number;
+  }
 }
 
 @Injectable({
@@ -78,17 +118,45 @@ export class TasksService {
       )
   }
 
-  // createTarea(payload: createTareaPayload) {
-  //   return this.http.post<createTareaResponse>(
-  //     `${this.API_URL}/crearTarea`,
-  //     payload,
-  //     { headers: this.getTokenLS() })
-  //     .pipe(
-  //       catchError((err: HttpErrorResponse) => this.handleError(err))
-  //     )
-  // }
+  createTarea(payload: createTareaPayload) {
+    return this.http.post<createTareaResponse>(
+      `${this.API_URL}/createTask`,
+      payload,
+      { headers: this.getTokenLS() })
+      .pipe(
+        catchError((err: HttpErrorResponse) => this.handleError(err))
+      )
+  }
+
+  editStatusTarea(
+    payload: {
+      idUsuario: number;
+      idProyecto: string;
+      idTarea: string;
+      estado: Estado;
+    }
+  ) {
+
+    return this.http.put<createTareaResponse>(
+      `${this.API_URL}/editStatusTask`,
+      payload,
+      { headers: this.getTokenLS() })
+      .pipe(
+        catchError((err: HttpErrorResponse) => this.handleError(err))
+      )
+  }
+
+  private verifyEnvironmentTokenLS(): string | null {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('tf_token');
+    }
+    return null;
+  }
 
   private getTokenLS() {
+
+    this.verifyEnvironmentTokenLS();
+
     const token = localStorage.getItem('tf_token');
 
     if (!token) {

@@ -45,15 +45,44 @@ export const routes: Routes = [
       import('./features/home/home.component').then(
         (m) => m.HomeComponent
       ),
+    children: [
+      {
+        path: 'projects',
+        loadComponent: () =>
+          import('./features/projects/projects.component').then(
+            (m) => m.ProjectsComponent
+          )
+      },
+      {
+        path: '',
+        redirectTo: 'projects',
+        pathMatch: 'full',
+      },
+      {
+        path: '**',
+        redirectTo: 'projects',
+        pathMatch: 'full',
+      }
+    ]
   },
 
   // 4. Ruta Tasks (Tablero de Tareas)
   {
-    path: 'tasks/:idProject',
+    path: 'tasks/user/:idUsuario/project/:idProject',
     title: 'TaskFlow - Tablero de Tareas',
     loadComponent: () =>
       import('./features/tasks/tasks.component').then(
         (m) => m.TasksComponent
+      ),
+  },
+
+  // 5. Ruta Task Detail (Modal sobre el tablero)
+  {
+    path: 'taskById/user/:idUsuario/project/:idProject/task/:idTask',
+    title: 'TaskFlow - Detalles de Tarea',
+    loadComponent: () =>
+      import('./features/task-detail/task-detail.component').then(
+        (m) => m.TaskDetailComponent
       ),
   },
 

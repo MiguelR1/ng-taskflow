@@ -55,7 +55,11 @@ module.exports = {
         "tertiary-fixed": "#a1f4c7",
         "surface-tint": "#732ee4",
         "outline-variant": "#ccc3d8",
-        "on-secondary-container": "#6f5900"
+        "on-secondary-container": "#6f5900",
+        'background-custom': '#fcf9f8',
+        'border-custom': '#1c1b1b',
+        'primary-purple': '#630ed4',
+        'tertiary-green': 'rgba(164, 247, 202, 0.5)'
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'sans-serif'],

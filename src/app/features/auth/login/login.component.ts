@@ -84,7 +84,7 @@ export class LoginComponent {
 
         console.log('localsto datos', localStorage);
 
-        this.router.navigate(['home']);
+        this.router.navigate(['home/projects']);
       },
       error: (msg: string) => {
         this.errorMessage = msg;

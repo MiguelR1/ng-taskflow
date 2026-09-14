@@ -41,6 +41,11 @@ export interface getProjectsResponse {
   proyecto: ActualizarProyectoPayload[];
 }
 
+export interface getProyectoById {
+  mensaje: string;
+  proyecto: ActualizarProyectoPayload;
+}
+
 
 @Injectable({ providedIn: 'root' })
 
@@ -65,7 +70,7 @@ export class ProjectsService {
   }
 
   getProjectById(id: String) {
-    return this.http.get<ActualizarProyectoPayload>(`${this.API_URL}/getProyectoById/${id}`, { headers: this.getTokenLS() }).pipe(
+    return this.http.get<getProyectoById>(`${this.API_URL}/getProyectoById/${id}`, { headers: this.getTokenLS() }).pipe(
       catchError((err: HttpErrorResponse) => this.handleError(err))
     );
   }

@@ -1,0 +1,116 @@
+<div class="min-h-screen bg-background font-sans text-on-background p-6 md:p-8">
+    <div class="max-w-lg md:max-w-md mx-auto flex flex-col gap-6">
+
+        <!-- Botón Volver -->
+        <button (click)="goBack()" type="button"
+            class="self-start bg-primary text-white font-bold text-sm px-5 py-2.5 rounded-full border-2 border-on-background hard-shadow-btn hover:brightness-110 active:translate-y-0.5 transition-all cursor-pointer flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            <span>Volver a Proyectos</span>
+        </button>
+
+        <!-- Tarjeta Principal de la Tarea -->
+        <div class="bento-card p-6 hard-shadow flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <span class="text-xs font-bold px-3 py-1 rounded-full border border-on-background bg-surface-variant">
+                    {{ task().category }}
+                </span>
+                <span
+                    class="text-xs font-bold px-3 py-1 rounded-full border border-on-background uppercase bg-secondary-container text-on-secondary-container">
+                    {{ task().status }}
+                </span>
+            </div>
+
+            <!-- Título y Descripción -->
+            <div>
+                <h1 class="font-headline text-2xl md:text-3xl font-extrabold text-on-background mb-2">
+                    {{ task().title }}
+                </h1>
+                <p class="text-sm text-on-surface-variant font-medium">
+                    {{ task().description }}
+                </p>
+            </div>
+
+            <div class="h-px bg-surface-variant w-full my-1"></div>
+
+            <!-- Metadatos: Responsable y Fecha de Creación -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Responsable -->
+                <div
+                    class="flex items-center gap-3 bg-surface-container-low p-3 rounded-xl border border-on-background">
+                    <div
+                        class="w-9 h-9 rounded-full bg-secondary-container border border-on-background flex items-center justify-center font-bold text-xs text-on-background">
+                        {{ getInitials(task().assignee.name) }}
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Responsable</span>
+                        <span class="text-xs font-bold text-on-surface">{{ task().assignee.name }}</span>
+                    </div>
+                </div>
+
+                <!-- Fecha de Creación -->
+                <div
+                    class="flex items-center gap-3 bg-surface-container-low p-3 rounded-xl border border-on-background">
+                    <div
+                        class="w-9 h-9 rounded-full bg-surface-variant border border-on-background flex items-center justify-center text-on-surface">
+                        <span class="material-symbols-outlined text-lg">calendar_today</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Creada el</span>
+                        <span class="text-xs font-bold text-on-surface">{{ task().createdAt }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hilo de Comentarios -->
+        <div class="bento-card p-6 hard-shadow flex flex-col gap-6">
+            <h2 class="font-headline text-xl font-bold flex items-center gap-2">
+                <span>Hilo de Comentarios</span>
+                <span class="font-bold text-xs bg-surface-variant px-2.5 py-1 rounded-full border border-on-background">
+                    {{ comments().length }}
+                </span>
+            </h2>
+
+            <!-- Formulario para agregar comentario -->
+            <div class="flex flex-col gap-3">
+                <textarea rows="3" placeholder="Escribe un comentario..." [value]="newCommentText()"
+                    (input)="onCommentInput($event)"
+                    class="w-full bg-surface border-2 border-on-background rounded-xl p-3 font-sans text-sm text-on-surface focus:outline-none focus:border-primary transition-all resize-none input-heavy"></textarea>
+
+                <div class="flex justify-end">
+                    <button (click)="addComment()" [disabled]="!newCommentText().trim()"
+                        class="bg-primary text-white font-bold text-xs py-2.5 px-5 rounded-full border-2 border-on-background hard-shadow-btn cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 active:translate-y-0.5 transition-all">
+                        <span class="material-symbols-outlined text-sm">send</span>
+                        <span>Publicar Comentario</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lista de Comentarios -->
+            <div class="flex flex-col gap-4">
+                @for (comment of comments(); track comment.id) {
+                <div class="flex gap-3 p-4 bg-surface-container-low rounded-xl border border-on-background">
+                    <div
+                        class="w-8 h-8 rounded-full bg-tertiary-container text-white border border-on-background flex items-center justify-center text-xs font-bold shrink-0">
+                        {{ getInitials(comment.author) }}
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0 gap-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xs text-on-background">{{ comment.author }}</span>
+                            <span class="text-[10px] text-outline">{{ comment.createdAt }}</span>
+                        </div>
+                        <p class="text-xs text-on-surface-variant leading-relaxed">{{ comment.text }}</p>
+                    </div>
+                </div>
+                } @empty {
+                <div class="text-center py-6 border-2 border-dashed border-outline rounded-xl bg-surface-container-low">
+                    <p class="text-xs text-on-surface-variant font-medium">
+                        Aún no hay comentarios en esta tarea. ¡Sé el primero en comentar!
+                    </p>
+                </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
