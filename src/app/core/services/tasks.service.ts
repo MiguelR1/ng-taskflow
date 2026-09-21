@@ -46,7 +46,7 @@ export interface getTareasCompletadas {
   tareas: number;
 }
 
-export interface createTareaPayload {
+export interface createTareaPayload { //crear task
   titulo: string;
   descripcion?: string | null;
   estado: string;
@@ -60,6 +60,27 @@ export interface createTareaPayload {
   color: string;
 }
 
+export interface detalleTareaPayload { //Detalle task
+  mensaje: string;
+
+  tarea: {
+    titulo: string;
+    descripcion?: string | null;
+    estado: string;
+    proyectoId: string;
+    creadorId: number;
+    horasEstimadas: number;
+    prioridad: string;
+    fechaTerminada: Date;
+    asignadorId: number;
+    clase: string;
+    color: string;
+    asignado: string;
+    creador: string;
+  }
+}
+
+
 export interface createTareaResponse {
   mensaje: string;
   tarea: {
@@ -72,6 +93,11 @@ export interface createTareaResponse {
     creadorId: number;
     horasEstimadas: number;
   }
+}
+
+export interface getTaskDetailResponse {
+  mensaje: string;
+  tarea: createTareaPayload;
 }
 
 @Injectable({
@@ -140,6 +166,15 @@ export class TasksService {
     return this.http.put<createTareaResponse>(
       `${this.API_URL}/editStatusTask`,
       payload,
+      { headers: this.getTokenLS() })
+      .pipe(
+        catchError((err: HttpErrorResponse) => this.handleError(err))
+      )
+  }
+
+  getTaskDetailById(idProyecto: string, idTarea: string) {
+    return this.http.get<detalleTareaPayload>(
+      `${this.API_URL}/getTaskById?idProyecto=${idProyecto}&idTarea=${idTarea}`,
       { headers: this.getTokenLS() })
       .pipe(
         catchError((err: HttpErrorResponse) => this.handleError(err))

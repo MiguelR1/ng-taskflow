@@ -968,6 +968,10 @@ body {
   max-width: 24rem;
 }
 
+.max-w-4xl{
+  max-width: 56rem;
+}
+
 .flex-1{
   flex: 1 1 0%;
 }
@@ -1118,6 +1122,10 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.text-wrap{
+  text-wrap: wrap;
 }
 
 .rounded{
@@ -1601,12 +1609,12 @@ body {
   font-style: italic;
 }
 
-.leading-tight{
-  line-height: 1.25;
-}
-
 .leading-relaxed{
   line-height: 1.625;
+}
+
+.leading-tight{
+  line-height: 1.25;
 }
 
 .tracking-wider{
@@ -1871,6 +1879,10 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.tituloTask:hover {
+  text-decoration: underline;
+}
+
 .placeholder\:text-outline::-moz-placeholder{
   --tw-text-opacity: 1;
   color: rgb(123 116 135 / var(--tw-text-opacity, 1));
@@ -2105,6 +2117,18 @@ body {
 
   .md\:max-w-md{
     max-width: 28rem;
+  }
+
+  .md\:max-w-lg{
+    max-width: 32rem;
+  }
+
+  .md\:max-w-xl{
+    max-width: 36rem;
+  }
+
+  .md\:max-w-2xl{
+    max-width: 42rem;
   }
 
   .md\:grid-cols-12{

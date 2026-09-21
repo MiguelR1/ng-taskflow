@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-background font-sans text-on-background p-6 md:p-8">
-    <div class="max-w-lg md:max-w-md mx-auto flex flex-col gap-6">
+    <div class="max-w-4xl md:max-w-2xl mx-auto flex flex-col gap-6">
 
         <!-- Botón Volver -->
         <button (click)="goBack()" type="button"
@@ -12,21 +12,21 @@
         <div class="bento-card p-6 hard-shadow flex flex-col gap-4">
             <div class="flex justify-between items-center">
                 <span class="text-xs font-bold px-3 py-1 rounded-full border border-on-background bg-surface-variant">
-                    {{ task().category }}
+                    {{ task()?.clase }}
                 </span>
                 <span
                     class="text-xs font-bold px-3 py-1 rounded-full border border-on-background uppercase bg-secondary-container text-on-secondary-container">
-                    {{ task().status }}
+                    {{ task()?.estado }}
                 </span>
             </div>
 
             <!-- Título y Descripción -->
             <div>
                 <h1 class="font-headline text-2xl md:text-3xl font-extrabold text-on-background mb-2">
-                    {{ task().title }}
+                    {{ task()?.titulo }}
                 </h1>
                 <p class="text-sm text-on-surface-variant font-medium">
-                    {{ task().description }}
+                    {{ task()?.descripcion }}
                 </p>
             </div>
 
@@ -39,11 +39,11 @@
                     class="flex items-center gap-3 bg-surface-container-low p-3 rounded-xl border border-on-background">
                     <div
                         class="w-9 h-9 rounded-full bg-secondary-container border border-on-background flex items-center justify-center font-bold text-xs text-on-background">
-                        {{ getInitials(task().assignee.name) }}
+                        {{ getInitials(task()?.asignado?.toString()!) }}
                     </div>
                     <div class="flex flex-col">
                         <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Responsable</span>
-                        <span class="text-xs font-bold text-on-surface">{{ task().assignee.name }}</span>
+                        <span class="text-xs font-bold text-on-surface">{{ task()?.asignado }}</span>
                     </div>
                 </div>
 
@@ -55,8 +55,11 @@
                         <span class="material-symbols-outlined text-lg">calendar_today</span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Creada el</span>
-                        <span class="text-xs font-bold text-on-surface">{{ task().createdAt }}</span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-outline">Creada el
+                            {{ task()?.fechaTerminada | date: 'dd/mm/yyyy'}}
+                        </span>
+
+                        <span class="text-xs font-bold text-on-surface">{{ task()?.creador }}</span>
                     </div>
                 </div>
             </div>

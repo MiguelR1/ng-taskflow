@@ -56,3 +56,7 @@
     @apply transition-all duration-100 active:translate-x-[2px] active:translate-y-[2px];
   }
 }
+
+.tituloTask:hover {
+  text-decoration: underline;
+}

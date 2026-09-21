@@ -74,10 +74,14 @@
                   </button>
                 </div>
               </div>
-              <h5 class="font-bold text-base leading-tight cursor-pointer"
-                [routerLink]="['/taskById/user', usuarioId, 'project', projectId, 'task', task.id]">
-                {{ task.titulo}}
-              </h5>
+
+              <div class="flex">
+                <h5 class="font-bold text-base leading-tight cursor-pointer tituloTask" style="text-wrap: balance;"
+                  [routerLink]="['/taskById/user', usuarioId, 'project', projectId, 'task', task.id]">
+                  {{ task.titulo}}
+                </h5>
+              </div>
+
               @if (task.descripcion) {
               <p class="text-xs text-on-surface-variant">{{ task.descripcion }}</p>
               }
